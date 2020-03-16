@@ -1,17 +1,30 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import DataService from "../../services/data-api-service";
 import WordList from "../../components/WordList/WordList";
 import "./DashboardRoute.css";
 
 class DashboardRoute extends Component {
+  state = { lang: "", words: [] };
+
+  componentDidMount() {
+    DataService.getLanguage().then(data =>
+      this.setState({ lang: data.language.name, words: data.words })
+    );
+  }
+
+  // shouldComponentUpdate() {}
+
   render() {
+    console.log(this.state);
     return (
       <section>
-        <h2>Let's Learn German!</h2>
-        <button className="start_lesson">
-          <Link to="/learn">Start Practicing</Link>
-        </button>
-        <WordList />
+        {this.state.lang && <h2>Let's Learn {this.state.lang}!</h2>}
+        <Link to="/learn">
+          <button className="start_lesson">Start practicing</button>
+        </Link>
+        <p>Total correct answers: 12</p>
+        <WordList words={this.state.words} />
       </section>
     );
   }

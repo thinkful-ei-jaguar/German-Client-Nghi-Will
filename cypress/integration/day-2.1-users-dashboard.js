@@ -16,62 +16,55 @@ describe(`User story: User's dashboard`, function() {
   beforeEach(() => {
     cy.server()
       .route({
-        method: 'GET',
-        url: '/api/language',
+        method: "GET",
+        url: "/api/language",
         status: 200,
-        response: 'fixture:language',
+        response: "fixture:language"
       })
-      .as('languageRequest')
-  })
+      .as("languageRequest");
+  });
 
   beforeEach(() => {
-    cy.login().visit('/')
-  })
+    cy.login().visit("/");
+  });
 
-  it('has h2 with title, total score, subtitle and link', () => {
-    cy.fixture('language.json').then(({ language }) => {
-      cy.get('main section').within($section => {
-        cy.get('h2')
-          .should('contain', language.name)
+  it("has h2 with title, total score, subtitle and link", () => {
+    cy.fixture("language.json").then(({ language }) => {
+      cy.get("main section").within($section => {
+        cy.get("h2").should("contain", language.name);
 
-        cy.root()
-          .should(
-            'contain',
-            `Total correct answers: ${language.total_score}`,
-          )
+        cy.root().should(
+          "contain",
+          `Total correct answers: ${language.total_score}`
+        );
 
-        cy.get('a')
-          .should('have.attr', 'href', '/learn')
-          .and('have.text', 'Start practicing')
+        cy.root().should("contain", `Correct Answer Count`);
 
-        cy.get('h3')
-          .should('have.text', 'Words to practice')
-      })
-    })
-  })
+        cy.root().should("contain", `Incorrect Answer Count`);
+
+        cy.get("a")
+          .should("have.attr", "href", "/learn")
+          .and("have.text", "Start practicing");
+
+        cy.get("h3").should("have.text", "Words to practice");
+      });
+    });
+  });
 
   it(`shows an LI and link for each language`, () => {
-    cy.wait('@languageRequest')
-    cy.fixture('language.json').then(({ words }) => {
-
+    cy.wait("@languageRequest");
+    cy.fixture("language.json").then(({ words }) => {
       words.forEach((word, idx) => {
-        cy.get('main section li').eq(idx).within($li => {
+        cy.get("main section div table thead")
+          .eq(idx)
+          .within($tr => {
+            cy.get("td").should("have.text", word.original);
 
-          cy.get('h4').should('have.text', word.original)
+            cy.root().should("contain", `${word.correct_count}`);
 
-          cy.root()
-            .should(
-              'contain',
-              `correct answer count: ${word.correct_count}`
-            )
-
-          cy.root()
-            .should(
-              'contain',
-              `incorrect answer count: ${word.incorrect_count}`
-            )
-        })
-      })
-    })
-  })
-})
+            cy.root().should("contain", `${word.incorrect_count}`);
+          });
+      });
+    });
+  });
+});
