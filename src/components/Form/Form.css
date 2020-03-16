@@ -1,11 +1,30 @@
 form {
   margin-top: 20px;
   padding: 20px 10px 20px 10px;
+  width: 70vw;
 }
 
 form > div {
   margin: 10px 0 10px 0;
-  font-size: 18px;
+  font-size: 17px;
+  border-bottom: 1px solid rgb(192, 192, 192);
+  padding: 3px 5px 3px 5px;
+  height: 30px;
+}
+
+.error {
+  border: none;
+  height: auto;
+}
+
+label {
+  margin-right: 5px;
+}
+
+input {
+  width: 35vw;
+  border: none;
+  font-size: 17px;
 }
 
 button {
@@ -19,5 +38,35 @@ button {
   height: 40px;
 }
 
-footer > a {
+/* Remove input and textbox outline*/
+*:focus {
+  outline: none;
+}
+
+button:hover {
+  cursor: pointer;
+}
+
+@media only screen and (min-width: 576px) {
+  form {
+    margin-top: 20px;
+    padding: 20px 40px 20px 40px;
+    width: 60vw;
+  }
+
+  input {
+    width: 27vw;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  form {
+    margin-top: 20px;
+    padding: 20px 50px 20px 50px;
+    width: 35vw;
+  }
+
+  input {
+    width: 13vw;
+  }
 }

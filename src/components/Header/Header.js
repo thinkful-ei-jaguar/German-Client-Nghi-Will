@@ -7,6 +7,14 @@ import "./Header.css";
 class Header extends Component {
   static contextType = UserContext;
 
+  state = {
+    active: "Sign up"
+  };
+
+  setActive = e => {
+    this.setState({ active: e.currentTarget.text });
+  };
+
   handleLogoutClick = () => {
     this.context.processLogout();
   };
@@ -16,9 +24,7 @@ class Header extends Component {
       <div>
         <span>{this.context.user.name}</span>
         <nav>
-          <Link onClick={this.handleLogoutClick} to="/login">
-            Logout
-          </Link>
+          <Link to="/login">Logout</Link>
         </nav>
       </div>
     );
@@ -27,7 +33,20 @@ class Header extends Component {
   renderLoginLink() {
     return (
       <nav>
-        <Link to="/login">Login</Link> <Link to="/register">Sign up</Link>
+        <Link
+          to="/login"
+          className={this.state.active === "Login" ? "active" : null}
+          onClick={this.setActive}
+        >
+          Login
+        </Link>
+        <Link
+          to="/register"
+          className={this.state.active === "Sign up" ? "active" : null}
+          onClick={this.setActive}
+        >
+          Sign up
+        </Link>
       </nav>
     );
   }
