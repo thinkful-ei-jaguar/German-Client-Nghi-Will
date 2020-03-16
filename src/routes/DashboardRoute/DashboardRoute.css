@@ -1,0 +1,19 @@
+.start_lesson {
+  width: 50vw;
+}
+
+.start_lesson > a {
+  color: #ffffff;
+}
+
+@media only screen and (min-width: 576px) {
+  .start_lesson {
+    width: 30vw;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .start_lesson {
+    width: 25vw;
+  }
+}
