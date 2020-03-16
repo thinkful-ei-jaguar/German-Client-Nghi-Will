@@ -7,3 +7,17 @@ form > div {
   margin: 10px 0 10px 0;
   font-size: 18px;
 }
+
+button {
+  margin: 15px 0 15px 0;
+  width: 100%;
+  font-size: 18px;
+  border-radius: 25px;
+  background-color: #45aaf2;
+  border-color: #45aaf2;
+  color: #ffffff;
+  height: 40px;
+}
+
+footer > a {
+}
