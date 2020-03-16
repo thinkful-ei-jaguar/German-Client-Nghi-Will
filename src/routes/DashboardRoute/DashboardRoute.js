@@ -8,12 +8,10 @@ class DashboardRoute extends Component {
   state = { lang: "", words: [] };
 
   componentDidMount() {
-    DataService.getLanguage().then(data =>
+    DataService.getWords().then(data =>
       this.setState({ lang: data.language.name, words: data.words })
     );
   }
-
-  // shouldComponentUpdate() {}
 
   render() {
     console.log(this.state);
