@@ -1,10 +1,12 @@
 import React, { Component } from "react";
 
 import "./WordList.css";
+import WordListItem from '../WordListItem/WordListItem';
 
-class WordList extends Component {
-  // Use this.props.words
-  render() {
+export default function WordList(props) {
+  const wordList = [...props.words];
+  
+ 
     return (
       <div className="word_list">
         <h3>Words to practice</h3>
@@ -17,26 +19,16 @@ class WordList extends Component {
             </tr>
           </thead>
           <tbody>
-            <tr key="id+word">
-              <td>Word1</td>
-              <td>4</td>
-              <td>5</td>
-            </tr>
-            <tr key="Id+word">
-              <td>Word2</td>
-              <td>4</td>
-              <td>2</td>
-            </tr>
-            <tr key="Idd+word">
-              <td>Word2</td>
-              <td>6</td>
-              <td>1</td>
-            </tr>
+          {wordList.map((word, i) => (
+              <WordListItem
+                  key={i}
+                  word={word}/>
+          ))}
           </tbody>
         </table>
       </div>
     );
-  }
+  
 }
 
-export default WordList;
+
