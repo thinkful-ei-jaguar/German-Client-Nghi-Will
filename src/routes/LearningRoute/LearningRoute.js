@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import { Input, Label, Required } from "../../components/Form/Form";
 import DataService from "../../services/data-api-service";
 import UserContext from "../../contexts/UserContext";
 
@@ -25,23 +26,39 @@ class LearningRoute extends Component {
   };
 
   render() {
-    const { original, correct_count, incorrect_count } = this.state.currentWord;
+    const {
+      wordCorrectCount,
+      wordIncorrectCount,
+      totalScore,
+      currentWord
+    } = this.state.currentWord;
+    console.log(this.state.currentWord);
     return (
       <section className="learning-word-section">
-        <h3>{original}</h3>
-        <h4>
-          Times Correct: {correct_count} <br /> Times incorrect:{" "}
-          {incorrect_count}
-        </h4>
+        <h2>
+          Translate the word: <span>{currentWord}</span>
+        </h2>
+        <p>Your total score is: {totalScore}</p>
 
         <form>
-          <input
+          <Label htmlFor="learn-guess-input">
+            What's the translation for this word?
+            <Required />
+          </Label>
+          <Input
+            id="learn-guess-input"
             type="text"
             onSubmit={this.handleSubmit}
             placeholder="Answer here"
+            required
           />
-          <button type="submit">Submit Answer</button>
+          <button type="submit">Check</button>
         </form>
+
+        <p>You have answered this word correctly {wordCorrectCount} times.</p>
+        <p>
+          You have answered this word incorrectly {wordIncorrectCount} times.
+        </p>
       </section>
     );
   }
