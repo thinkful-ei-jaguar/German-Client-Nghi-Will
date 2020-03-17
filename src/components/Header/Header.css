@@ -26,8 +26,28 @@ nav a.active {
   border-bottom: 3px solid #45aaf2;
 }
 
+.header_session {
+  color: #ffffff;
+  font-size: 17px;
+  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.header_session > span {
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.header_session > nav {
+  display: inline-block;
+  height: 100%;
+}
+
 @media only screen and (min-width: 576px) {
-  nav a {
+  nav a,
+  .header_session {
     font-size: 18px;
   }
 }

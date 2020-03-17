@@ -21,9 +21,9 @@ class Header extends Component {
 
   renderLogoutLink() {
     return (
-      <div>
+      <div className="header_session">
         <span>{this.context.user.name}</span>
-        <nav>
+        <nav onClick={this.context.processLogout}>
           <Link to="/login">Logout</Link>
         </nav>
       </div>
