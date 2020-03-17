@@ -6,19 +6,18 @@ import "./DashboardRoute.css";
 
 class DashboardRoute extends Component {
   state = {
-      lang: {},
-      words: [] };
+    lang: {},
+    words: []
+  };
 
   componentDidMount() {
     DataService.getWords().then(data =>
       this.setState({ lang: data.language, words: data.words })
     );
   }
-  
 
   render() {
-    console.log(this.state);
-    const { lang, words} = this.state;
+    const { lang, words } = this.state;
     return (
       <section>
         {lang.name && <h2>Let's Learn {lang.name}!</h2>}
