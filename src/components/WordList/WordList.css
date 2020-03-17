@@ -6,7 +6,7 @@
   border-collapse: collapse;
   margin: 10px 0;
   width: 320px;
-  font: 12px;
+  font: 10px;
 }
 
 #word_table thead tr {
@@ -18,7 +18,7 @@
 td {
   padding: 12px 15px;
   border-bottom: 1px solid #dddddd;
-  text-align: right;
+  text-align: left;
 }
 
 #word_table tbody tr:hover {
@@ -26,17 +26,12 @@ td {
 }
 
 #word_table tbody tr:last-of-type {
-  border-bottom: 2px solid #a55eeab;
+  border-bottom: 2px solid #a55eea;
 }
 
 @media only screen and (min-width: 576px) {
   #word_table {
     width: 500px;
-  }
-
-  #word_table th,
-  td {
-    text-align: center;
   }
 }
 
