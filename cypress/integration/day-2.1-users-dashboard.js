@@ -51,14 +51,16 @@ describe(`User story: User's dashboard`, function() {
     });
   });
 
-  it(`shows an LI and link for each language`, () => {
+  it(`shows an tr and link for each word`, () => {
     cy.wait("@languageRequest");
     cy.fixture("language.json").then(({ words }) => {
       words.forEach((word, idx) => {
-        cy.get("main section div table thead")
+        cy.get("main section div table tbody tr")
           .eq(idx)
           .within($tr => {
-            cy.get("td").should("have.text", word.original);
+            cy.get("td")
+              .eq(0)
+              .should("have.text", word.original);
 
             cy.root().should("contain", `${word.correct_count}`);
 

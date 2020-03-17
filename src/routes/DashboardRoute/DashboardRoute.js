@@ -5,23 +5,26 @@ import WordList from "../../components/WordList/WordList";
 import "./DashboardRoute.css";
 
 class DashboardRoute extends Component {
-  state = { lang: "", words: [] };
+  state = { lang: "", words: [], totalScore: 0 };
 
   componentDidMount() {
-    DataService.getWords().then(data =>
-      this.setState({ lang: data.language.name, words: data.words })
-    );
+    DataService.getWords().then(data => {
+      this.setState({
+        lang: data.language.name,
+        words: data.words,
+        totalScore: data.language.total_score
+      });
+    });
   }
 
   render() {
-    console.log(this.state);
     return (
       <section>
         {this.state.lang && <h2>Let's Learn {this.state.lang}!</h2>}
         <Link to="/learn">
           <button className="start_lesson">Start practicing</button>
         </Link>
-        <p>Total correct answers: 12</p>
+        <p>Total correct answers: {this.state.totalScore}</p>
         <WordList words={this.state.words} />
       </section>
     );
