@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 
 import "./WordList.css";
 import WordListItem from '../WordListItem/WordListItem';

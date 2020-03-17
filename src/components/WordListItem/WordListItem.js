@@ -1,13 +1,13 @@
 import React from 'react';
 
 export default function WordListItem(props) {
-		const {word, correct, incorrect} = props.word;
+		const { original, correct_count, incorrect_count} = props.word;
 	return (
 		<>
-			<tr key={props.key}>
-				<td>{word}</td>
-				<td>{correct}</td>
-				<td>{incorrect}</td>
+			<tr>
+				<td>{original}</td>
+				<td>{correct_count}</td>
+				<td>{incorrect_count}</td>
 			</tr>
 		</>
 	)

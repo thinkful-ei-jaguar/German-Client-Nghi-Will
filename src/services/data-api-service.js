@@ -19,6 +19,35 @@ const DataService = {
         return res.json();
       }
     });
+  },
+  
+  getNextWord() {
+    return fetch(`${config.API_ENDPOINT}/language/head`, {
+      headers: {
+        authorization: `Bearer ${TokenService.getAuthToken()}`
+      }
+    }).then(res => {
+      if (res.status === 401) {
+        return UserContext.processLogout();
+      } else if (!res.ok) {
+        return res.json().then(e => Promise.reject(e));
+      } else {
+        return res.json();
+      }
+    });
+  },
+  
+  postGuess(guess) {
+    return fetch(`${config.API_ENDPOINT}/language/guess`, {
+      method: 'POST',
+      headers: {
+        'content-type': 'application/json',
+        authorization: `Bearer ${TokenService.getAuthToken()}`
+      },
+      body: JSON.stringify({ guess })
+    }).then(res =>
+        !res.ok ? res.json().then(event => Promise.reject(event)) : res.json()
+    );
   }
 };
 
