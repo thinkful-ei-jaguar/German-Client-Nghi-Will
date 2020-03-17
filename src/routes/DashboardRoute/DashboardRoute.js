@@ -4,17 +4,21 @@ import DataService from "../../services/data-api-service";
 import WordList from "../../components/WordList/WordList";
 import "./DashboardRoute.css";
 
+
 class DashboardRoute extends Component {
+
   state = {
+     
       lang: {},
-      words: [] };
+      words: []
+  };
 
   componentDidMount() {
-    DataService.getWords().then(data =>
-      this.setState({ lang: data.language, words: data.words })
-    );
+    DataService.getWords().then(data => {
+        this.setState({lang: data.language, words: data.words})
+    });
   }
-  
+
 
   render() {
     console.log(this.state);

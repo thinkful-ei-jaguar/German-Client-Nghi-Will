@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import DataService from '../../services/data-api-service';
+import UserContext from '../../contexts/UserContext';
 
 class LearningRoute extends Component {
+  static ContextType = UserContext;
   
   state = {
     currentWord: {},
@@ -9,36 +11,34 @@ class LearningRoute extends Component {
   };
   
   componentDidMount() {
-      DataService.getNextWord().then(
+      DataService.getWord().then(
           word => this.setState({currentWord: word}))
   }
   
-  handleGuess = (ev) => {
-    const guessInput = ev.target;
-    
-    if (guessInput === this.state.currentWord.translation) {
-        const newCount = this.state.currentWord.correct_count + 1;
-        this.setState({
-            currentWord : {
-                correct_count: newCount
-            },
-            isCorrect: true
-        })
-    } else {
-        let newCount = this.state.currentWord.incorrect_count + 1;
-        this.setState({
-            currentWord: {
-                incorrect_count: newCount
-            }
-        })
-    }
-  }
+  
+  handleSubmit = ev => {
+        ev.preventDefault();
+        const { guess } = ev.target;
+         DataService.postGuess(guess.value)
+            .then(response => {
+                this.context.setGuess(response);
+            })
+            .then(this.props.history.push('/Results'));
+    };
+  
+
   
   render() {
-      const {original , translation, correct_count, incorrect_count} = this.state.currentWord;
+      const {original , correct_count, incorrect_count} = this.state.currentWord;
     return (
         <section className='learning-word-section'>
             <h3>{original}</h3>
+            <h4>Times Correct: {correct_count} <br/> Times incorrect: {incorrect_count}</h4>
+            
+            <form>
+            <input type="text" onSubmit={this.handleSubmit} placeholder="Answer here"/>
+            <button type='submit'>Submit Answer</button>
+            </form>
         </section>
     );
   }
