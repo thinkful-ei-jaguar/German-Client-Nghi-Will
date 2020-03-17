@@ -9,6 +9,7 @@ const UserContext = React.createContext({
   setError: () => {},
   clearError: () => {},
   setUser: () => {},
+  setGuess: () => {},
   processLogin: () => {},
   processLogout: () => {},
 })
@@ -18,7 +19,7 @@ export default UserContext
 export class UserProvider extends Component {
   constructor(props) {
     super(props)
-    const state = { user: {}, error: null }
+    const state = { user: {}, error: null, guessData: {} }
 
     const jwtPayload = TokenService.parseAuthToken()
 
@@ -100,16 +101,23 @@ export class UserProvider extends Component {
         this.setError(err)
       })
   }
+  
+  setGuess = data => {
+    this.setState({ guessData: data });
+  };
 
   render() {
     const value = {
       user: this.state.user,
       error: this.state.error,
+      guessData: this.state.guessData,
       setError: this.setError,
       clearError: this.clearError,
       setUser: this.setUser,
       processLogin: this.processLogin,
       processLogout: this.processLogout,
+      setGuess: this.setGuess,
+      
     }
     return (
       <UserContext.Provider value={value}>
