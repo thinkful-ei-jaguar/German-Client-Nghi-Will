@@ -8,7 +8,7 @@ class Header extends Component {
   static contextType = UserContext;
 
   state = {
-    active: "Sign up"
+    active: ""
   };
 
   setActive = e => {
@@ -18,6 +18,14 @@ class Header extends Component {
   handleLogoutClick = () => {
     this.context.processLogout();
   };
+
+  componentDidMount() {
+    if (window.location.pathname === "/login") {
+      this.setState({ active: "Login" });
+    } else if (window.location.pathname === "/register") {
+      this.setState({ active: "Sign up" });
+    }
+  }
 
   renderLogoutLink() {
     return (

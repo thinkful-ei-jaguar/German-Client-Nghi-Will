@@ -20,13 +20,15 @@ form > div {
 }
 
 label {
-  margin-right: 5px;
+  margin-left: 5px;
+  width: 50%;
 }
 
 input {
   width: 35vw;
   border: none;
   font-size: 17px;
+  margin-left: 10px;
 }
 
 button {
