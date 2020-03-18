@@ -6,14 +6,11 @@ import { UserProvider } from './contexts/UserContext';
 import App from './components/App/App';
 import './setup-icons';
 import './index.css';
-import { LearningProvider } from './contexts/LearningContext';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render( <BrowserRouter>
     <UserProvider>
-        <LearningProvider>
-            <App></App>
-        </LearningProvider>
+      <App />
     </UserProvider>
   </BrowserRouter>,
   document.getElementById('root')

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
-import DataService from '../../services/data-api-service';
-import LearningContext from '../../contexts/LearningContext';
-import AnswerForm from '../../components/AnswerForm/AnswerForm';
-import './LearningRoute.css';
+import { Input, Label, Required } from "../../components/Form/Form";
+import DataService from "../../services/data-api-service";
+import LearningContext from "../../contexts/LearningContext";
 
 class LearningRoute extends Component {
   static contextType = LearningContext;
@@ -10,17 +9,17 @@ class LearningRoute extends Component {
         super(props);
        
         this.state = {
+            nextWord: '',
             currentWord: '',
-            correctCount: null,
+            wordCorrectCount: null,
             totalScore: null,
-            incorrectCount: null,
+            wordIncorrectCount: null,
             isCorrect: false,
-            userAnswer: '',
-            answer: {
-                value: ''
-            },
-            guess: ' '
+            guess: '',
+            
         };
+        this.handleSubmitGuess = this.handleSubmitGuess.bind(this);
+        this.updateGuess = this.updateGuess.bind(this);
     }
   componentDidMount() {
      
@@ -28,34 +27,36 @@ class LearningRoute extends Component {
           .then(data => {
               this.setState({
                   currentWord: data.currentWord,
-                  correctCount:data.wordCorrectCount,
+                  wordCorrectCount:data.wordCorrectCount,
                   totalScore: data.totalScore,
-                  incorrectCount: data.wordIncorrectCount,
-                  answer: data.answer
+                  wordIncorrectCount: data.wordIncorrectCount,
+                  nextWord: data.nextWord
               })
              
   
     })
-  }
-updateUserAnswer = answer =>  {
+  };
+  
+updateGuess(event) {
       
       this.setState({
-          userAnswer : {
-              value: answer
-          }
-      })
+          guess: event.target.value
+          });
   };
-  handleAnswerSubmit = (e) =>  {
-    e.preventDefault();
-      const { userGuess } = this.state;
-      const guess = userGuess.value;
-      DataService.postGuess(guess)
-          .then(data => {
+  
+  
+  handleSubmitGuess(event) {
+    event.preventDefault();
+    const guess  = this.state.guess;
+ 
+    DataService.postGuess(guess)
+        .then(data => {
             this.setState({
                 nextWord: data.nextWord,
                 wordCorrectCount: data.wordCorrectCount,
                 wordIncorrectCount:data.wordIncorrectCount,
-                currentWord: data.currentWord,totalScore: data.totalScore,
+                currentWord: data.currentWord,
+                totalScore: data.totalScore,
                 answer: data.answer,
                 isCorrect: data.isCorrect,
                 guess: data.guess
@@ -69,18 +70,43 @@ updateUserAnswer = answer =>  {
 
   
   render() {
-    console.log(this.state);
-    const { currentWord, correctCount, totalScore, incorrectCount} = this.state;
+      console.log(this.state)
+    const {
+          currentWord,
+      wordCorrectCount,
+      wordIncorrectCount,
+      totalScore,
+      guess
+    } = this.state;
+
     return (
-        <section className='learning-word-section'>
-            <h2>{currentWord}</h2>
-            <ul class="past-results">
-                <h5>Past results :</h5>
-                <li>Correct: {correctCount}</li>
-                <li>Incorrect: {incorrectCount}</li>
-            </ul>
-           <AnswerForm onChange={e => this.updateUserAnswer(e.target.value)} onSubmit={() => this.handleSubmit} />
-        </section>
+      <section className="learning-word-section">
+        <h2>
+          Translate the word: <span>{currentWord}</span>
+        </h2>
+        <p>Your total score is: {totalScore}</p>
+
+        <form onSubmit={this.handleSubmitGuess}>
+          <Label htmlFor="learn-guess-input">
+            What's the translation for this word?
+            <Required />
+          </Label>
+          <Input
+            id="learn-guess-input"
+            type="text"
+            placeholder="Answer here"
+            onChange={this.updateGuess}
+            value={guess}
+            required
+          />
+          <button type="submit">Check</button>
+        </form>
+
+        <p>You have answered this word correctly {wordCorrectCount} times.</p>
+        <p>
+          You have answered this word incorrectly {wordIncorrectCount} times.
+        </p>
+      </section>
     );
   }
 }
