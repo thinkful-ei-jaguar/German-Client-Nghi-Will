@@ -75,8 +75,8 @@ updateGuess(event) {
       wordIncorrectCount,
       totalScore,
       currentWord
-    } = this.state.currentWord;
-
+    } = this.state;
+    console.log(this.state);
     return (
       <section className="learning-word-section">
         <div className="learning-heading">
@@ -85,13 +85,13 @@ updateGuess(event) {
             <span className="currentWord">{currentWord}</span>
           </h2>
         </div>
-        <form onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmitGuess}>
           <Textarea
             id="learn-guess-input"
             type="text"
             placeholder="Answer here"
             onChange={this.updateGuess}
-            value={guess}
+            value={this.state.guess}
             required
           />
           <button type="submit" className="check_button">
