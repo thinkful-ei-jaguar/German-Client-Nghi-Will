@@ -61,8 +61,10 @@ class LearningRoute extends Component {
           </button>
         </form>
         <div className="score_container">
-          <p>Your total score is: {totalScore}</p>
-          <p>You have answered this word correctly {wordCorrectCount} times.</p>
+          <p className="total_score">Total score: {totalScore}</p>
+          <p className="correct_word_count">
+            You have answered this word correctly {wordCorrectCount} times.
+          </p>
           <p>
             You have answered this word incorrectly {wordIncorrectCount} times.
           </p>

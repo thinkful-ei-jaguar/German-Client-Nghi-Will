@@ -1,4 +1,5 @@
 .learning-word-section {
+  padding-top: 30px;
   padding-left: 60px;
   padding-right: 60px;
 }
@@ -9,7 +10,7 @@
 }
 
 .learning-heading h2 {
-  font-size: 35px;
+  font-size: 30px;
 }
 
 .currentWord {
@@ -20,8 +21,8 @@
 }
 
 .learning-word-section form {
-  margin-top: 30px;
-  margin-bottom: 50px;
+  margin-top: 10px;
+  margin-bottom: 20px;
   padding: 0;
   width: 100%;
 }
@@ -42,6 +43,16 @@
 
 .score_container {
   width: 100%;
+}
+
+.score_container .total_score {
+  margin: 0 0 60px 0;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.score_container .correct_word_count {
+  margin-bottom: 10px;
 }
 
 .learning-word-section form textarea::placeholder {
