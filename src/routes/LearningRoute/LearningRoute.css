@@ -1,0 +1,87 @@
+.learning-word-section {
+  padding-left: 60px;
+  padding-right: 60px;
+}
+
+.learning-heading {
+  font-family: "Baloo Thambi 2", cursive;
+  width: 100%;
+}
+
+.learning-heading h2 {
+  font-size: 35px;
+}
+
+.currentWord {
+  display: block;
+  font-weight: 400;
+  font-size: 25px;
+  color: #646464;
+}
+
+.learning-word-section form {
+  margin-top: 30px;
+  margin-bottom: 50px;
+  padding: 0;
+  width: 100%;
+}
+
+.learning-word-section form textarea {
+  height: 80px;
+  width: 100%;
+  background-color: #727272;
+  border-radius: 20px;
+  border: none;
+  text-indent: 5px;
+  padding: 15px;
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+  resize: none;
+}
+
+.score_container {
+  width: 100%;
+}
+
+.learning-word-section form textarea::placeholder {
+  color: #cfcfcf;
+}
+
+.learning-word-section form textarea:focus {
+  outline: none;
+}
+
+@media only screen and (min-width: 576px) {
+  .learning-heading h2 {
+    font-size: 38px;
+  }
+
+  .currentWord {
+    font-size: 26px;
+  }
+
+  .learning-word-section {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  .learning-word-section form textarea {
+    height: 120px;
+  }
+
+  .check_button {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .learning-word-section {
+    padding-left: 30vw;
+    padding-right: 30vw;
+  }
+
+  .learning-word-section form textarea {
+    font-size: 26px;
+  }
+}
