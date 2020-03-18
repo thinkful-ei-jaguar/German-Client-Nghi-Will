@@ -1,23 +1,98 @@
-ul.past-results {
-    display: flex;
-    flex-flow: column nowrap;
-    align-items: center;
-    justify-content: space-between;
-    height: 15vh;
-
+.learning-word-section {
+  padding-top: 30px;
+  padding-left: 60px;
+  padding-right: 60px;
 }
 
-button {
-    color: white;
-    border: none;
-    box-shadow: -1px 2px 8px rgba(27, 106, 151, 0.64);
+.learning-heading {
+  font-family: "Baloo Thambi 2", cursive;
+  width: 100%;
 }
 
-button:active {
-    background-color: #1ec8f2;
-    box-shadow: -1px 2px 6px inset rgba(71, 135, 200, 0.63);
+.learning-heading h2 {
+  font-size: 30px;
 }
 
-button:hover {
-    background-color: #1ec8f2;
+.currentWord {
+  display: block;
+  font-weight: 400;
+  font-size: 25px;
+  color: #646464;
+}
+
+.learning-word-section form {
+  margin-top: 10px;
+  margin-bottom: 20px;
+  padding: 0;
+  width: 100%;
+}
+
+.learning-word-section form textarea {
+  height: 80px;
+  width: 100%;
+  background-color: #727272;
+  border-radius: 20px;
+  border: none;
+  text-indent: 5px;
+  padding: 15px;
+  font-size: 20px;
+  color: white;
+  font-weight: 500;
+  resize: none;
+}
+
+.score_container {
+  width: 100%;
+}
+
+.score_container .total_score {
+  margin: 0 0 60px 0;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.score_container .correct_word_count {
+  margin-bottom: 10px;
+}
+
+.learning-word-section form textarea::placeholder {
+  color: #cfcfcf;
+}
+
+.learning-word-section form textarea:focus {
+  outline: none;
+}
+
+@media only screen and (min-width: 576px) {
+  .learning-heading h2 {
+    font-size: 38px;
+  }
+
+  .currentWord {
+    font-size: 26px;
+  }
+
+  .learning-word-section {
+    padding-left: 100px;
+    padding-right: 100px;
+  }
+
+  .learning-word-section form textarea {
+    height: 120px;
+  }
+
+  .check_button {
+    font-size: 20px;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .learning-word-section {
+    padding-left: 30vw;
+    padding-right: 30vw;
+  }
+
+  .learning-word-section form textarea {
+    font-size: 26px;
+  }
 }

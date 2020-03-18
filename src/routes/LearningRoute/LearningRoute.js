@@ -1,7 +1,8 @@
 import React, { Component } from "react";
-import { Input, Label, Required } from "../../components/Form/Form";
+import { Textarea } from "../../components/Form/Form";
 import DataService from "../../services/data-api-service";
 import LearningContext from "../../contexts/LearningContext";
+import "./LearningRoute.css";
 
 class LearningRoute extends Component {
   static contextType = LearningContext;
@@ -68,30 +69,24 @@ updateGuess(event) {
   
   
 
-  
   render() {
-      console.log(this.state)
     const {
-          currentWord,
       wordCorrectCount,
       wordIncorrectCount,
       totalScore,
-      guess
-    } = this.state;
+      currentWord
+    } = this.state.currentWord;
 
     return (
       <section className="learning-word-section">
-        <h2>
-          Translate the word: <span>{currentWord}</span>
-        </h2>
-        <p>Your total score is: {totalScore}</p>
-
-        <form onSubmit={this.handleSubmitGuess}>
-          <Label htmlFor="learn-guess-input">
-            What's the translation for this word?
-            <Required />
-          </Label>
-          <Input
+        <div className="learning-heading">
+          <h2>
+            Translate this word
+            <span className="currentWord">{currentWord}</span>
+          </h2>
+        </div>
+        <form onSubmit={this.handleSubmit}>
+          <Textarea
             id="learn-guess-input"
             type="text"
             placeholder="Answer here"
@@ -99,13 +94,19 @@ updateGuess(event) {
             value={guess}
             required
           />
-          <button type="submit">Check</button>
+          <button type="submit" className="check_button">
+            Check
+          </button>
         </form>
-
-        <p>You have answered this word correctly {wordCorrectCount} times.</p>
-        <p>
-          You have answered this word incorrectly {wordIncorrectCount} times.
-        </p>
+        <div className="score_container">
+          <p className="total_score">Total score: {totalScore}</p>
+          <p className="correct_word_count">
+            You have answered this word correctly {wordCorrectCount} times.
+          </p>
+          <p>
+            You have answered this word incorrectly {wordIncorrectCount} times.
+          </p>
+        </div>
       </section>
     );
   }
