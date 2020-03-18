@@ -24,7 +24,7 @@ class DashboardRoute extends Component {
         <Link to="/learn">
           <button className="start_lesson">Start practicing</button>
         </Link>
-        <p>Total correct answers:{lang.total_score}</p>
+        <p>Total correct answers: {lang.total_score}</p>
         <WordList words={words} />
       </section>
     );
