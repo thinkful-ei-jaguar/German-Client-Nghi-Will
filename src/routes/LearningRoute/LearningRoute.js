@@ -8,7 +8,8 @@ class LearningRoute extends Component {
 
   state = {
     currentWord: {},
-    isCorrect: false
+    isCorrect: false,
+    guess: ""
   };
 
   componentDidMount() {
@@ -17,12 +18,17 @@ class LearningRoute extends Component {
 
   handleSubmit = ev => {
     ev.preventDefault();
-    const { guess } = ev.target;
-    DataService.postGuess(guess.value)
+
+    const { guess } = this.state;
+    DataService.postGuess(guess)
       .then(response => {
         this.context.setGuess(response);
       })
       .then(this.props.history.push("/Results"));
+  };
+
+  updateGuess = ev => {
+    this.setState({ guess: ev.currentTarget.value });
   };
 
   render() {
@@ -30,17 +36,17 @@ class LearningRoute extends Component {
       wordCorrectCount,
       wordIncorrectCount,
       totalScore,
-      currentWord
+      nextWord
     } = this.state.currentWord;
-    console.log(this.state.currentWord);
+
     return (
       <section className="learning-word-section">
         <h2>
-          Translate the word: <span>{currentWord}</span>
+          Translate the word: <span>{nextWord}</span>
         </h2>
         <p>Your total score is: {totalScore}</p>
 
-        <form>
+        <form onSubmit={this.handleSubmit}>
           <Label htmlFor="learn-guess-input">
             What's the translation for this word?
             <Required />
@@ -48,8 +54,8 @@ class LearningRoute extends Component {
           <Input
             id="learn-guess-input"
             type="text"
-            onSubmit={this.handleSubmit}
             placeholder="Answer here"
+            onChange={this.updateGuess}
             required
           />
           <button type="submit">Check</button>
