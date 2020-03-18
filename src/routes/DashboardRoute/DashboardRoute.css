@@ -1,11 +1,20 @@
 .start_lesson {
   width: 50vw;
+  border: none;
+  box-shadow: -2px 2px 4px rgba(119, 136, 153, 0.38);
+
 }
 
 .start_lesson > a {
   color: #ffffff;
 }
 
+.start_lesson:hover {
+  background-color: #1ec8f2;
+}
+.start_lesson:active {
+  box-shadow: -2px 2px 4px inset rgba(119, 136, 153, 0.38);
+}
 @media only screen and (min-width: 576px) {
   .start_lesson {
     width: 30vw;

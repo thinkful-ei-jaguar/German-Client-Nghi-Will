@@ -14,9 +14,13 @@ class DashboardRoute extends Component {
   };
 
   componentDidMount() {
-    DataService.getWords().then(data => {
-        this.setState({lang: data.language, words: data.words})
-    });
+    DataService.getWords()
+        .then(data => {
+            this.setState({
+                lang: data.language,
+                words: data.words
+            })
+        });
   }
 
 

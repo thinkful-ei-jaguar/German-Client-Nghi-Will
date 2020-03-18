@@ -1,0 +1,89 @@
+
+import React, { Component } from 'react';
+
+const LearningContext = React.createContext({
+	loading: true,
+	word: '',
+	nextWord: '',
+	totalScore: null,
+	correctCount: null,
+	incorrectCount: null,
+	answer: null,
+	isCorrect: null,
+	guess:''
+})
+
+export default LearningContext
+
+export class LearningProvider extends Component {
+	constructor(props) {
+		super(props)
+		this.state = {
+			loading: true,
+			word: '',
+			nextWord: '',
+			totalScore: null,
+			correctCount: null,
+			incorrectCount: null,
+			answer: null,
+			isCorrect: null,
+			guess:''
+		}
+	}
+	
+	setError = error => {
+		this.setState({ error })
+	}
+	
+	clearError = () => {
+		this.setState({ error: null })
+	}
+	
+	setCurrentWord = (word, totalScore, correctCount, incorrectCount) => {
+		this.setState({
+			word,
+			totalScore,
+			correctCount,
+			incorrectCount,
+			loading: null
+		});
+	}
+	
+	setNextWord = (nextWord, totalScore, correctCount, incorrectCount, answer, isCorrect, guess) => {
+		this.setState({
+			nextWord,
+			totalScore,
+			correctCount: correctCount,
+			incorrectCount: incorrectCount,
+			answer,
+			isCorrect,
+			guess
+		});
+	}
+	
+	goToNextWord = () => {
+		this.setState({
+			word: this.state.nextWord,
+			nextWord: '',
+			answer: null,
+			isCorrect: null,
+			guess:''
+		});
+	}
+	
+	render() {
+		const value = {
+			...this.state,
+			setError: this.setError,
+			clearError: this.clearError,
+			setCurrentWord: this.setCurrentWord,
+			setNextWord: this.setNextWord,
+			goToNextWord: this.goToNextWord
+		};
+		return (
+			<LearningContext.Provider value={value}>
+				{this.props.children}
+			</LearningContext.Provider>
+		)
+	}
+}

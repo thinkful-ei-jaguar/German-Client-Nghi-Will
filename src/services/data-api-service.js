@@ -12,12 +12,16 @@ const DataService = {
 	
 		}).then(res => !res.ok ? res.json().then(event => Promise.reject(event)) : res.json());
 	},
-	getWord() {
+	getWord(langID) {
 		return fetch(`${config.API_ENDPOINT}/language/head`, {
 			headers: {
+				"content-type" : "application/json",
 				authorization: `Bearer ${TokenService.getAuthToken()}`
 			}
-		}).then(res => !res.ok ? res.json().then(event => Promise.reject(event)) : res.json());
+		}).then (res => {
+			return (!res.ok) ? res.json().then(e =>Promise.reject(e))
+				: res.json();
+		})
 	},
 	postGuess(guess) {
 		return fetch(`${config.API_ENDPOINT}/language/guess`, {

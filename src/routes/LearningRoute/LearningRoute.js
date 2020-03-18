@@ -1,44 +1,85 @@
 import React, { Component } from "react";
 import DataService from '../../services/data-api-service';
-import UserContext from '../../contexts/UserContext';
+import LearningContext from '../../contexts/LearningContext';
+import AnswerForm from '../../components/AnswerForm/AnswerForm';
+import './LearningRoute.css';
 
 class LearningRoute extends Component {
-  static ContextType = UserContext;
-  
-  state = {
-    currentWord: {},
-    isCorrect: false
-  };
-  
+  static contextType = LearningContext;
+    constructor(props) {
+        super(props);
+       
+        this.state = {
+            currentWord: '',
+            correctCount: null,
+            totalScore: null,
+            incorrectCount: null,
+            isCorrect: false,
+            userAnswer: '',
+            answer: {
+                value: ''
+            },
+            guess: ' '
+        };
+    }
   componentDidMount() {
-      DataService.getWord().then(
-          word => this.setState({currentWord: word}))
+     
+         DataService.getWord()
+          .then(data => {
+              this.setState({
+                  currentWord: data.currentWord,
+                  correctCount:data.wordCorrectCount,
+                  totalScore: data.totalScore,
+                  incorrectCount: data.wordIncorrectCount,
+                  answer: data.answer
+              })
+             
+  
+    })
   }
-  
-  
-  handleSubmit = ev => {
-        ev.preventDefault();
-        const { guess } = ev.target;
-         DataService.postGuess(guess.value)
-            .then(response => {
-                this.context.setGuess(response);
+updateUserAnswer = answer =>  {
+      
+      this.setState({
+          userAnswer : {
+              value: answer
+          }
+      })
+  };
+  handleAnswerSubmit = (e) =>  {
+    e.preventDefault();
+      const { userGuess } = this.state;
+      const guess = userGuess.value;
+      DataService.postGuess(guess)
+          .then(data => {
+            this.setState({
+                nextWord: data.nextWord,
+                wordCorrectCount: data.wordCorrectCount,
+                wordIncorrectCount:data.wordIncorrectCount,
+                currentWord: data.currentWord,totalScore: data.totalScore,
+                answer: data.answer,
+                isCorrect: data.isCorrect,
+                guess: data.guess
             })
-            .then(this.props.history.push('/Results'));
-    };
+      })
+      
+};
+  
+  
   
 
   
   render() {
-      const {original , correct_count, incorrect_count} = this.state.currentWord;
+    console.log(this.state);
+    const { currentWord, correctCount, totalScore, incorrectCount} = this.state;
     return (
         <section className='learning-word-section'>
-            <h3>{original}</h3>
-            <h4>Times Correct: {correct_count} <br/> Times incorrect: {incorrect_count}</h4>
-            
-            <form>
-            <input type="text" onSubmit={this.handleSubmit} placeholder="Answer here"/>
-            <button type='submit'>Submit Answer</button>
-            </form>
+            <h2>{currentWord}</h2>
+            <ul class="past-results">
+                <h5>Past results :</h5>
+                <li>Correct: {correctCount}</li>
+                <li>Incorrect: {incorrectCount}</li>
+            </ul>
+           <AnswerForm onChange={e => this.updateUserAnswer(e.target.value)} onSubmit={() => this.handleSubmit} />
         </section>
     );
   }
