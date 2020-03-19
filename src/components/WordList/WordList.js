@@ -5,7 +5,8 @@ import WordListItem from "../WordListItem/WordListItem";
 
 export default function WordList(props) {
   const wordList = [...props.words];
-
+  
+ 
   return (
     <div className="word_list">
       <h3>Words to practice</h3>
@@ -18,8 +19,10 @@ export default function WordList(props) {
           </tr>
         </thead>
         <tbody>
-          {wordList.map((word, i) => (
-            <WordListItem key={i} word={word} />
+        {wordList.map((word, i) => (
+              <WordListItem
+                  key={i}
+                  word={word}/>
           ))}
         </tbody>
       </table>

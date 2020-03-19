@@ -17,7 +17,7 @@
   display: block;
   font-weight: 400;
   font-size: 25px;
-  color: #646464;
+  color: #2b2b2b;
 }
 
 .learning-word-section form {
@@ -95,4 +95,17 @@
   .learning-word-section form textarea {
     font-size: 26px;
   }
+}
+
+.answer {
+  display: flex;
+  flex-flow: column nowrap;
+}
+
+#hover-reveal {
+  display: none;
+}
+
+#hover-span:hover~#hover-reveal{
+  display: block;
 }

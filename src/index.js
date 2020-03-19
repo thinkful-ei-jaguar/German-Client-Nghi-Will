@@ -8,9 +8,15 @@ import './setup-icons';
 import './index.css';
 import * as serviceWorker from './serviceWorker';
 
+
 ReactDOM.render( <BrowserRouter>
     <UserProvider>
-      <App />
+  
+            <App>
+            
+            </App>
+     
+      
     </UserProvider>
   </BrowserRouter>,
   document.getElementById('root')

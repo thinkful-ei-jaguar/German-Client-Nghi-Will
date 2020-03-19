@@ -3,33 +3,35 @@ import { Link } from "react-router-dom";
 import DataService from "../../services/data-api-service";
 import WordList from "../../components/WordList/WordList";
 import "./DashboardRoute.css";
+import UserContext from '../../contexts/UserContext';
 
 
 class DashboardRoute extends Component {
-
+    static contextType = UserContext;
   state = {
-     
-      lang: {},
-      words: []
-  };
-
+      words: [],
+      lang: {}
+  }
   componentDidMount() {
-    DataService.getWords().then(data => {
-        this.setState({lang: data.language, words: data.words})
+    DataService.getWords()
+        .then(data => {
+            this.setState({lang: data.language});
+            this.setState({words: data.words})
     });
   }
 
 
   render() {
-    console.log(this.state);
-    const { lang, words} = this.state;
+    
+
+        const { userLanguage = {}, words = []} = this.state;
     return (
       <section>
-        {lang.name && <h2>Let's Learn {lang.name}!</h2>}
+        {userLanguage.name && <h2>Let's Learn {userLanguage.name}!</h2>}
         <Link to="/learn">
           <button className="start_lesson">Start practicing</button>
         </Link>
-        <p>Total correct answers: {lang.total_score}</p>
+        <p>Total correct answers: {userLanguage.total_score}</p>
         <WordList words={words} />
       </section>
     );

@@ -1,69 +1,50 @@
 import React, { Component } from "react";
 import { Textarea } from "../../components/Form/Form";
 import DataService from "../../services/data-api-service";
-import LearningContext from "../../contexts/LearningContext";
+import UserContext from "../../contexts/UserContext";
 import "./LearningRoute.css";
 
 class LearningRoute extends Component {
-  static contextType = LearningContext;
-    constructor(props) {
-        super(props);
-       
-        this.state = {
-            nextWord: '',
-            currentWord: '',
-            wordCorrectCount: null,
-            totalScore: null,
-            wordIncorrectCount: null,
-            isCorrect: false,
-            guess: '',
-            
-        };
-        this.handleSubmitGuess = this.handleSubmitGuess.bind(this);
-        this.updateGuess = this.updateGuess.bind(this);
-    }
-  componentDidMount() {
-     
-         DataService.getWord()
-          .then(data => {
-              this.setState({
-                  currentWord: data.currentWord,
-                  wordCorrectCount:data.wordCorrectCount,
-                  totalScore: data.totalScore,
-                  wordIncorrectCount: data.wordIncorrectCount,
-                  nextWord: data.nextWord
-              })
-             
-  
-    })
+    static contextType = UserContext;
+   
+  state={
+      userGuess: '',
+      results: {}
   };
-  
-updateGuess(event) {
-      
-      this.setState({
-          guess: event.target.value
-          });
-  };
-  
-  
-  handleSubmitGuess(event) {
-    event.preventDefault();
-    const guess  = this.state.guess;
  
-    DataService.postGuess(guess)
-        .then(data => {
-            this.setState({
-                nextWord: data.nextWord,
-                wordCorrectCount: data.wordCorrectCount,
-                wordIncorrectCount:data.wordIncorrectCount,
-                currentWord: data.currentWord,
-                totalScore: data.totalScore,
-                answer: data.answer,
-                isCorrect: data.isCorrect,
-                guess: data.guess
+  
+  componentDidMount() {
+      DataService.getWord()
+          .then(results => {
+              this.setState({results})
+          
+          })
+  }
+    
+   handleChange = (e) => {
+        this.setState({
+            userGuess: e.target.value
+        })
+    }
+    handleSubmitGuess(event) {
+        event.preventDefault();
+        console.log('Posting guess')
+    
+        DataService.postGuess(this.state.userGuess)
+            .then(data => {
+            
+                this.context.updateNextWord(data.nextWord);
+                this.context.updateWordCorrectCount( data.wordCorrectCount);
+                this.context.updateWordIncorrectCount(data.wordIncorrectCount);
+                this.context.setCurrentWord (data.nextWord);
+                this.context.updateTotalScore (data.totalScore);
+                this.context.updateAnswer (data.answer);
+                this.context.updateIsCorrect (data.isCorrect);
+                this.context.setGuess( data.guess);
+                console.log({'data:': data})
             })
-      })
-      
+        .catch(err => this.context.setError(err))
+        
 };
   
   
@@ -75,41 +56,39 @@ updateGuess(event) {
       wordIncorrectCount,
       totalScore,
       currentWord
-    } = this.state;
-    console.log(this.state);
-    return (
-      <section className="learning-word-section">
-        <div className="learning-heading">
-          <h2>
-            Translate this word
-            <span className="currentWord">{currentWord}</span>
-          </h2>
-        </div>
+    } = this.context;
+   
+        return (
+            <section className="learning-word-section">s
+                <div className="learning-heading">
+                    <h2>
+                        Translate this word
+            <span className="currentWord">{currentWord.original}</span>
+                    </h2>
+                </div>
         <form onSubmit={this.handleSubmitGuess}>
-          <Textarea
-            id="learn-guess-input"
-            type="text"
-            placeholder="Answer here"
-            onChange={this.updateGuess}
-            value={this.state.guess}
-            required
-          />
-          <button type="submit" className="check_button">
-            Check
-          </button>
-        </form>
-        <div className="score_container">
+                    <Textarea
+                        id="learn-guess-input"
+                        type="text"
+                        placeholder="Answer here"
+                        onChange={this.handleChange}
+                        value={this.state.userGuess}
+                        required
+                    />
+          <button type="submit" className="check_button">Check</button>
+                </form>
+                <div className="score_container">
           <p className="total_score">Total score: {totalScore}</p>
-          <p className="correct_word_count">
+                    <p className="correct_word_count">
             You have answered this word correctly {wordCorrectCount} times.
-          </p>
-          <p>
+                    </p>
+                    <p>
             You have answered this word incorrectly {wordIncorrectCount} times.
-          </p>
-        </div>
-      </section>
-    );
-  }
+                    </p>
+                </div>
+            </section>
+        );
+    }
 }
 
 export default LearningRoute;
