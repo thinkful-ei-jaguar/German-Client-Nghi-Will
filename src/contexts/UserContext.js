@@ -23,12 +23,12 @@ const UserContext = React.createContext({
   setUserLanguage: () => {},
   setCurrentWord: () => {},
   setGuess: () => {},
-  updateNextWord: () => {},
-  updateTotalScore: () => {},
-  updateWordCorrectCount: () => {},
-  updateWordIncorrectCount: () => {},
-  updateIsCorrect: () => {},
-  updateAnswer: () => {},
+  resetNextWord: () => {},
+  setTotalScore: () => {},
+  resetWordCorrectCount: () => {},
+  resetWordIncorrectCount: () => {},
+  resetIsCorrect: () => {},
+  resetAnswer: () => {},
   processLogin: () => {},
   processLogout: () => {},
 })
@@ -59,16 +59,16 @@ export class UserProvider extends Component {
         IdleService.regiserIdleTimerResets()
         TokenService.queueCallbackBeforeExpiry(() => {
           this.fetchRefreshToken()
-        })
-      }
       DataService.getWords()
           .then(data => {
             this.setUserLanguage(data.language.name);
             this.setCurrentWord(data.words[0]);
-            this.updateNextWord(data.words[1]);
-            this.updateTotalScore(data.totalScore)
+            this.resetNextWord(data.words[1]);
+            this.setTotalScore(data.totalScore)
             })
           .catch(err => this.setError(err))
+        })
+      }
     }
     
     
@@ -99,27 +99,27 @@ export class UserProvider extends Component {
       this.setState({ currentWord })
     }
     
-    updateTotalScore = totalScore => {
+    setTotalScore = totalScore => {
       this.setState({ totalScore })
     }
     
-    updateWordCorrectCount = wordCorrectCount => {
+    resetWordCorrectCount = wordCorrectCount => {
       this.setState({ wordCorrectCount })
     }
     
-    updateWordIncorrectCount = wordIncorrectCount => {
+    resetWordIncorrectCount = wordIncorrectCount => {
       this.setState({ wordIncorrectCount })
     }
     
-    updateIsCorrect = isCorrect => {
+    resetIsCorrect = isCorrect => {
       this.setState({ isCorrect })
     }
     
-    updateAnswer = answer => {
+    resetAnswer = answer => {
       this.setState({ answer })
     }
     
-    updateNextWord = nextWord => {
+    resetNextWord = nextWord => {
       this.setState({ nextWord })
     }
     
@@ -183,12 +183,12 @@ export class UserProvider extends Component {
         setUser: this.setUser,
         setUserLanguage: this.setUserLanguage,
         setCurrentWord: this.setCurrentWord,
-        updateNextWord: this.updateNextWord,
-        updateTotalScore: this.updateTotalScore,
-        updateWordCorrectCount: this.updateWordCorrectCount,
-        updateWordIncorrectCount: this.updateWordIncorrectCount,
-        updateAnswer: this.updateAnswer,
-        updateIsCorrect: this.updateIsCorrect,
+        setTotalScore: this.setTotalScore,
+        resetNextWord: this.resetNextWord,
+        resetWordCorrectCount: this.resetWordCorrectCount,
+        resetWordIncorrectCount: this.resetWordIncorrectCount,
+        resetAnswer: this.resetAnswer,
+        resetIsCorrect: this.resetIsCorrect,
         processLogin: this.processLogin,
         processLogout: this.processLogout,
       }

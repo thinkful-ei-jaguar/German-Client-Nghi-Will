@@ -30,7 +30,7 @@ const DataService = {
         "content-type": "application/json",
         authorization: `Bearer ${TokenService.getAuthToken()}`
       },
-      body: JSON.stringify( {guess} )
+      body: JSON.stringify( guess )
     }).then(res =>
       !res.ok ? res.json().then(event => Promise.reject(event)) : res.json()
     );
