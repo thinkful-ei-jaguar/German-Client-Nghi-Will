@@ -10,7 +10,7 @@ nav {
   display: flex;
   justify-content: space-evenly;
   height: 40%;
-  min-width: 40vw;
+  width: 100%;
 }
 
 nav a {
@@ -20,7 +20,7 @@ nav a {
   border-bottom: 3px solid transparent;
   width: 100%;
   text-align: center;
-  padding: 9px 0 0 0;
+  padding-top: 9px;
 }
 
 nav a.active {
@@ -39,6 +39,7 @@ nav a.active {
 .header_session > span {
   font-weight: 600;
   margin-top: 8px;
+  width: 100%;
 }
 
 .header_session > nav {
