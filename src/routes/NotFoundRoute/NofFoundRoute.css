@@ -1,0 +1,12 @@
+.not_found_section h2 {
+  font-size: 30px;
+  font-weight: 700;
+}
+
+.not_found_section p {
+  margin: 20px 0;
+}
+
+.not_found_section img {
+  width: 130px;
+}
