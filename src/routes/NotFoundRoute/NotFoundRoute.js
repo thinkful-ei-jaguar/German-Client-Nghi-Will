@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./NofFoundRoute.css";
+import "./NotFoundRoute.css";
 import cryImg from "../../img/cry-face.png";
 
 class NotFoundRoute extends Component {

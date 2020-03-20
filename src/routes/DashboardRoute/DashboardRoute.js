@@ -3,28 +3,24 @@ import { Link } from "react-router-dom";
 import DataService from "../../services/data-api-service";
 import WordList from "../../components/WordList/WordList";
 import "./DashboardRoute.css";
-import UserContext from '../../contexts/UserContext';
-
+import UserContext from "../../contexts/UserContext";
 
 class DashboardRoute extends Component {
-    static contextType = UserContext;
+  static contextType = UserContext;
   state = {
-      words: [],
-      lang: {}
-  }
+    words: [],
+    lang: {}
+  };
+
   componentDidMount() {
-    DataService.getWords()
-        .then(data => {
-            this.setState({lang: data.language});
-            this.setState({words: data.words})
+    DataService.getWords().then(data => {
+      this.setState({ lang: data.language });
+      this.setState({ words: data.words.sort((a, b) => a.id - b.id) });
     });
   }
 
-
   render() {
-    
-
-        const { lang = {}, words = []} = this.state;
+    const { lang = {}, words = [] } = this.state;
     return (
       <section>
         {lang.name && <h2>Let's Learn {lang.name}!</h2>}

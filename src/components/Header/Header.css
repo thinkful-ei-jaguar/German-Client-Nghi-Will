@@ -24,7 +24,7 @@ nav a {
 }
 
 nav a.active {
-  border-bottom: 3px solid #45aaf2;
+  border-bottom: 5px solid #45aaf2;
 }
 
 .header_session {

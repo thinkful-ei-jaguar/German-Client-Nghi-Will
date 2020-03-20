@@ -1,4 +1,4 @@
 export default {
- API_ENDPOINT: "http://localhost:8000/api",
-    TOKEN_KEY: "german-client-auth-token"
+  API_ENDPOINT: "https://trylingual.herokuapp.com/api",
+  TOKEN_KEY: "german-client-auth-token"
 };
