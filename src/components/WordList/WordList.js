@@ -4,7 +4,7 @@ import "./WordList.css";
 import WordListItem from "../WordListItem/WordListItem";
 
 export default function WordList(props) {
-  const wordList = [...props.words];
+ 
   
  
   return (
@@ -13,13 +13,13 @@ export default function WordList(props) {
       <table id="word_table">
         <thead>
           <tr className="">
-            <th></th>
+            <th>{' '}</th>
             <th>Correct Answer Count</th>
             <th>Incorrect Answer Count</th>
           </tr>
         </thead>
         <tbody>
-        {wordList.map((word, i) => (
+        {props.words.map((word, i) => (
               <WordListItem
                   key={i}
                   word={word}/>

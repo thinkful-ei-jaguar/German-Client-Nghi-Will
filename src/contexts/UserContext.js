@@ -23,12 +23,12 @@ const UserContext = React.createContext({
   setUserLanguage: () => {},
   setCurrentWord: () => {},
   setGuess: () => {},
-  resetNextWord: () => {},
+  setNextWord: () => {},
   setTotalScore: () => {},
-  resetWordCorrectCount: () => {},
-  resetWordIncorrectCount: () => {},
-  resetIsCorrect: () => {},
-  resetAnswer: () => {},
+  setWordCorrectCount: () => {},
+  setWordIncorrectCount: () => {},
+  setIsCorrect: () => {},
+  setAnswer: () => {},
   processLogin: () => {},
   processLogout: () => {},
 })
@@ -56,14 +56,14 @@ export class UserProvider extends Component {
     
     componentDidMount() {
       if (TokenService.hasAuthToken()) {
-        IdleService.regiserIdleTimerResets()
+        IdleService.registerIdleTimerResets()
         TokenService.queueCallbackBeforeExpiry(() => {
           this.fetchRefreshToken()
       DataService.getWords()
           .then(data => {
             this.setUserLanguage(data.language.name);
             this.setCurrentWord(data.words[0]);
-            this.resetNextWord(data.words[1]);
+            this.setNextWord(data.words[1]);
             this.setTotalScore(data.totalScore)
             })
           .catch(err => this.setError(err))
@@ -103,23 +103,27 @@ export class UserProvider extends Component {
       this.setState({ totalScore })
     }
     
-    resetWordCorrectCount = wordCorrectCount => {
+    setWordCorrectCount = wordCorrectCount => {
       this.setState({ wordCorrectCount })
     }
     
-    resetWordIncorrectCount = wordIncorrectCount => {
+    setWordIncorrectCount = wordIncorrectCount => {
       this.setState({ wordIncorrectCount })
     }
     
-    resetIsCorrect = isCorrect => {
+    setIsCorrect = isCorrect => {
       this.setState({ isCorrect })
     }
     
-    resetAnswer = answer => {
+    setGuess = guess => {
+        this.setState({guess})
+    }
+    
+    setAnswer = answer => {
       this.setState({ answer })
     }
     
-    resetNextWord = nextWord => {
+    setNextWord = nextWord => {
       this.setState({ nextWord })
     }
     
@@ -132,7 +136,7 @@ export class UserProvider extends Component {
         name: jwtPayload.name,
         username: jwtPayload.sub,
       })
-      IdleService.regiserIdleTimerResets()
+      IdleService.registerIdleTimerResets()
       TokenService.queueCallbackBeforeExpiry(() => {
         this.fetchRefreshToken()
       })
@@ -184,11 +188,11 @@ export class UserProvider extends Component {
         setUserLanguage: this.setUserLanguage,
         setCurrentWord: this.setCurrentWord,
         setTotalScore: this.setTotalScore,
-        resetNextWord: this.resetNextWord,
-        resetWordCorrectCount: this.resetWordCorrectCount,
-        resetWordIncorrectCount: this.resetWordIncorrectCount,
-        resetAnswer: this.resetAnswer,
-        resetIsCorrect: this.resetIsCorrect,
+        setNextWord: this.setNextWord,
+        setWordCorrectCount: this.setWordCorrectCount,
+        setWordIncorrectCount: this.setWordIncorrectCount,
+        setAnswer: this.setAnswer,
+        setIsCorrect: this.setIsCorrect,
         processLogin: this.processLogin,
         processLogout: this.processLogout,
       }

@@ -24,14 +24,14 @@ class DashboardRoute extends Component {
   render() {
     
 
-        const { userLanguage = {}, words = []} = this.state;
+        const { lang = {}, words = []} = this.state;
     return (
       <section>
-        {userLanguage.name && <h2>Let's Learn {userLanguage.name}!</h2>}
+        {lang.name && <h2>Let's Learn {lang.name}!</h2>}
         <Link to="/learn">
           <button className="start_lesson">Start practicing</button>
         </Link>
-        <p>Total correct answers: {userLanguage.total_score}</p>
+        <p>Total correct answers: {lang.total_score}</p>
         <WordList words={words} />
       </section>
     );
