@@ -5,114 +5,147 @@ import UserContext from "../../contexts/UserContext";
 import "./LearningRoute.css";
 
 class LearningRoute extends Component {
-    static contextType = UserContext;
-   
-  state={
-      nextWord: '',
-      userGuess: '',
-      guessSubmitted: false,
-      wordCorrectCount: 0,
-      wordIncorrectCount: 0,
-      isCorrect: null
-  }
- 
-  
-  componentDidMount() {
-      DataService.getWord()
-          .then(results => {
-              this.context.setTotalScore(results.totalScore)
-              this.context.setCurrentWord(results)
-              this.context.resetNextWord(results.nextWord)
-          }).then(() => {
-              this.setState({
-                  nextWord: this.context.currentWord.nextWord,
-                  wordCorrectCount: this.context.currentWord.wordCorrectCount,
-                  wordIncorrectCount: this.context.currentWord.wordIncorrectCount,
-                  totalScore: this.context.currentWord.totalScore
-              })
-      })
-  }
     
-   handleChange = (e) => {
-        this.setState({
-            userGuess: e.target.value
-        })
+    static contextType = UserContext;
+    
+    state = {
+        guess: '',
+        currentWord: '',
+        nextWord: '',
+        wordCorrectCount: 0,
+        wordIncorrectCount: 0,
+        answered: false,
     };
-  
-  
-  
-    handleSubmitGuess(e) {
-        e.preventDefault();
-        console.log('Posting guess')
-        const guessSubmit = this.state.userGuess;
-        this.setState({
-            userGuess: '',
-            userSubmitted: true
-        });
+    
+    componentDidMount() {
+        DataService.getHeadWord()
+            .then(data => {
+                this.context.setCurrentWord(data);
+                this.context.setNextWord(data.nextWord);
+                this.context.setTotalScore(data.totalScore)
+            })
+            .then(() => {
+                this.setState({
+                    nextWord: this.context.currentWord.nextWord,
+                    currentWord:this.context.currentWord,
+                    totalScore: this.context.currentWord.totalScore,
+                    correctScore: this.context.currentWord.wordCorrectCount,
+                    incorrectScore: this.context.currentWord.wordIncorrectCount
+                })
+            })
         
+    }
+    renderButton = () => {
+        return this.state.answered ? <button type='submit' id='check_button'>Submit your answer</button> :
+        !this.state.answered ? <button id='next-button' onClick={this.handleNextButton}>Try another word!</button> : null;
+    };
+    
+    
+    handleNextButton = () => {
+        this.setState({
+            answered: false,
+            isCorrect: null,
+        });
+        DataService.getHeadWord()
+            .then(data => {
+                this.context.setCurrentWord(data);
+                this.context.setNextWord(data.nextWord)
+            })
+            .then(() => {
+                this.setState({
+                    totalScore: this.context.currentWord.totalScore,
+                    correctScore: this.context.currentWord.wordCorrectCount,
+                    incorrectScore: this.context.currentWord.wordIncorrectCount,
+                })
+            })
+    };
+    
+    renderFeedBack = () => {
+        if(this.state.answered === true) {
+            if(this.context.isCorrect === true) {
+                return (
+                    <div className='feedback'>
+                        <h3>You were correct! :D</h3>
+                        <p>The correct translation for {this.context.currentWord.nextWord} was {this.context.answer} and you chose {this.state.guess}!</p>
+                    </div>
+                )
+            }
+            else {
+                return (
+                    <div className='feedback'>
+                        <h3>Good try, but not quite right :(</h3>
+                        <p>The correct translation for {this.context.currentWord.nextWord} was {this.context.answer} and you chose {this.state.guess}!</p>
+                    </div>
+                )
+            }
+        }
+    };
+    
+    handleSubmitAnswer = e => {
+        e.preventDefault();
+        this.setState({
+            answered: true,
+        });
+        document.getElementById('learn-guess-input').value='';
         DataService.postGuess({guess: this.state.guess})
-            .then(result => {
-                this.context.resetAnswer(result.answer);
-                this.context.setTotalScore(result.totalScore);
-                this.context.resetWordCorrectCount(result.wordCorrectCount);
-                this.context.resetWordIncorrectCount(result.wordIncorrectCount);
-                this.context.resetIsCorrect(result.isCorrect);
-                this.setState({nextWord: result.nextWord});
-                if(result.isCorrect) {
+            .then(data => {
+                this.context.setWordCorrectCount(data.wordCorrectCount);
+                this.context.setWordIncorrectCount(data.wordIncorrectCount);
+                this.context.setTotalScore(data.totalScore);
+                this.context.setAnswer(data.answer);
+                this.context.setIsCorrect(data.isCorrect);
+                this.setState({nextWord: data.nextWord});
+                
+                if(data.isCorrect) {
                     this.setState({
-                        wordCorrectScore: this.state.correctScore + 1}
+                        correctScore: this.state.correctScore + 1}
                     )
                 }
                 else {
-                    this.setState({wordIncorrectScore: this.state.wordIncorrectScore + 1})
+                    this.setState({incorrectScore: this.state.incorrectScore + 1})
                 }
             })
-    }
+    };
     
-    
-    
-    
+    handleGuessField = (e) => {
+        this.setState({
+            guess: e.target.value,
+        })
+    };
     
     render() {
-    const {
-     
-      wordCorrectCount,
-      wordIncorrectCount,
-      totalScore,
-      currentWord
-    } = this.context;
-   const { results } = this.state
+        const {  wordCorrectCount, wordIncorrectCount, isCorrect} = this.context;
+        const { totalScore,  answered, currentWord } = this.state
         return (
-            <section className="learning-word-section">
-                <div className="learning-heading">
-                    <h2>
-                        Translate this word
-            <span className="currentWord">{currentWord.original}</span>
-                    </h2>
+                        <section className="learning-word-section">
+                        <div className="learning-heading">
+                            <h2>
+                                Translate this word<span className="currentWord">{currentWord.currentWord}</span>
+                            </h2>
                 </div>
-        <form onSubmit={() => this.handleSubmitGuess}>
-                    <Textarea
-                        id="learn-guess-input"
-                        type="text"
-                        placeholder="Answer here"
-                        onChange={this.handleChange}
-                        value={this.state.userGuess}
-                        required
-                    />
-          <button type="submit" className="check_button">Check</button>
-                </form>
-                <div className="score_container">
-          <p className="total_score">Total score: {totalScore}</p>
-                    <p className="correct_word_count">
-            You have answered this word correctly {wordCorrectCount} times.
-                    </p>
-                    <p>
-            You have answered this word incorrectly {wordIncorrectCount} times.
-                    </p>
-                </div>
-            </section>
-        );
-    }
+                        <form onSubmit={() => this.handleSubmitAnswer}>
+                            {this.renderFeedBack()}
+                            <Textarea
+                                id="learn-guess-input"
+                                type="text"
+                                placeholder="Answer here"
+                                onChange={this.handleGuessField}
+                                value={this.state.guess}
+                                required
+                            />
+                            {this.renderButton()}
+                       
+                        </form>
+                        <div className="Count_container">
+                        <p className="total_Count">Total Count: {totalScore}</p>
+                        <p className="correct_word_count">
+                            You have answered this word correctly {wordCorrectCount} times.
+                        </p>
+                        <p>
+                            You have answered this word incorrectly {wordIncorrectCount} times.
+                        </p>
+                        </div></section>
+        )};
 }
 
 export default LearningRoute;
