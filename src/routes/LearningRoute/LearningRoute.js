@@ -36,8 +36,8 @@ class LearningRoute extends Component {
         
     }
     renderButton = () => {
-        return this.state.answered ? <button type='submit' id='check_button'>Submit your answer</button> :
-        !this.state.answered ? <button id='next-button' onClick={this.handleNextButton}>Try another word!</button> : null;
+        return !this.state.answered ? <button type='submit' id='check_button'>Check</button> :
+        this.state.answered ? <button id='next-button' onClick={this.handleNextButton}>Try another word!</button> : null;
     };
     
     
@@ -61,32 +61,24 @@ class LearningRoute extends Component {
     };
     
     renderFeedBack = () => {
-        if(this.state.answered === true) {
-            if(this.context.isCorrect === true) {
-                return (
-                    <div className='feedback'>
-                        <h3>You were correct! :D</h3>
+        return (
+            this.context.isCorrect ? <div className='feedback'><h3>You were correct! :D</h3>
                         <p>The correct translation for {this.context.currentWord.nextWord} was {this.context.answer} and you chose {this.state.guess}!</p>
                     </div>
-                )
-            }
-            else {
-                return (
+            :
                     <div className='feedback'>
                         <h3>Good try, but not quite right :(</h3>
                         <p>The correct translation for {this.context.currentWord.nextWord} was {this.context.answer} and you chose {this.state.guess}!</p>
-                    </div>
-                )
-            }
-        }
-    };
+                    </div>)
+            };
+        
+    
     
     handleSubmitAnswer = e => {
         e.preventDefault();
         this.setState({
             answered: true,
         });
-        document.getElementById('learn-guess-input').value='';
         DataService.postGuess({guess: this.state.guess})
             .then(data => {
                 this.context.setWordCorrectCount(data.wordCorrectCount);
@@ -114,17 +106,17 @@ class LearningRoute extends Component {
     };
     
     render() {
-        const {  wordCorrectCount, wordIncorrectCount, isCorrect} = this.context;
-        const { totalScore,  answered, currentWord } = this.state
+        const {  wordCorrectCount, wordIncorrectCount, currentWord, totalScore} = this.context;
+        
         return (
                         <section className="learning-word-section">
                         <div className="learning-heading">
                             <h2>
-                                Translate this word<span className="currentWord">{currentWord.currentWord}</span>
+                                Translate this word<span className="currentWord">{currentWord.nextWord}</span>
                             </h2>
                 </div>
                         <form onSubmit={() => this.handleSubmitAnswer}>
-                            {this.renderFeedBack()}
+                            {this.state.answered && this.renderFeedBack()}
                             <Textarea
                                 id="learn-guess-input"
                                 type="text"
