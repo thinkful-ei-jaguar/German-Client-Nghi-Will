@@ -25,7 +25,8 @@ class LearningRoute extends Component {
       <>
         <h3>Good try, but not quite right.</h3>
         <p>
-          The correct translation for {this.state.word.nextWord} was{" "}
+          The correct translation for{" "}
+          <span lang="de">{this.state.word.nextWord}</span> was{" "}
           {this.state.nextWord.answer}!
         </p>
       </>
@@ -105,7 +106,9 @@ class LearningRoute extends Component {
         <div className="learning-heading">
           <h2>
             Translate this word
-            <span className="currentWord">{nextWord}</span>
+            <span className="currentWord" lang="de">
+              {nextWord}
+            </span>
           </h2>
         </div>
         {this.state.nextWord && (

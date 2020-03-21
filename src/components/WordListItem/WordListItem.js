@@ -5,7 +5,7 @@ export default function WordListItem(props) {
   return (
     <>
       <tr>
-        <td>{original}</td>
+        <td lang="de">{original}</td>
         <td>{correct_count}</td>
         <td>{incorrect_count}</td>
       </tr>
