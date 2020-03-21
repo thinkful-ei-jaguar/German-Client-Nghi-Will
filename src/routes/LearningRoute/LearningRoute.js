@@ -123,7 +123,7 @@ class LearningRoute extends Component {
           {this.renderButton()}
         </form>
         <div className="Count_container">
-          <p className="total_Count">Total Count: {totalScore}</p>
+          <p className="total_Count">Total Score: {totalScore}</p>
           <p className="correct_word_count">
             You have answered this word correctly {wordCorrectCount} times.
           </p>

@@ -31,7 +31,7 @@ describe(`User story: Presented with word`, function() {
     cy.fixture("language-head.json").then(languageHeadFixture => {
       cy.get("main").within($main => {
         cy.get("h2")
-          .should("have.text", "Translate the word:")
+          .should("have.text", "Translate this word")
           .siblings("span")
           .should("have.text", languageHeadFixture.nextWord);
       });
@@ -49,13 +49,7 @@ describe(`User story: Presented with word`, function() {
       .visit(`/learn`)
       .wait("@languageHeadRequest");
 
-    cy.get("main form").within($form => {
-      cy.get("label[for=learn-guess-input]").should(
-        "have.text",
-        `What's the translation for this word?`
-      );
-
-      cy.get("input#learn-guess-input")
+      cy.get("textarea#learn-guess-input")
         .should("have.attr", "type", "text")
         .and("have.attr", "required", "required");
 
