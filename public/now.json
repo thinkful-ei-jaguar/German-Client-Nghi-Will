@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "name": "try-lingual",
+  "alias": "try-lingual",
+  "routes": [
+    { "handle": "filesystem" },
+    { "src": "/.*", "dest": "/index.html" }
+  ]
+}

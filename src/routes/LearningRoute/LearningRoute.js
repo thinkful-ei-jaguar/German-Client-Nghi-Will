@@ -1,34 +1,25 @@
 import React, { Component } from "react";
 import { Textarea } from "../../components/Form/Form";
 import DataService from "../../services/data-api-service";
-import UserContext from "../../contexts/UserContext";
 import "./LearningRoute.css";
 
 class LearningRoute extends Component {
-  static contextType = UserContext;
-
   state = {
     guess: "",
     word: {},
-    nextWord: {},
-    answered: false
+    nextWord: null
   };
 
   componentDidMount() {
-    DataService.getHeadWord().then(data => {
+    DataService.getFirstWord().then(data => {
       this.setState({ word: data });
     });
   }
 
   renderFeedBack = () => {
-    console.log(this.state);
-    return this.context.isCorrect ? (
+    return this.state.nextWord.isCorrect ? (
       <>
         <h3>Correct! :D</h3>
-        <p>
-          The correct translation for {this.state.word.nextWord} was{" "}
-          {this.state.nextWord.answer}!
-        </p>
       </>
     ) : (
       <>
@@ -42,41 +33,37 @@ class LearningRoute extends Component {
   };
 
   renderButton = () => {
-    return this.state.answered === false ? (
-      <button type="submit" id="check_button">
+    return this.state.nextWord === null ? (
+      <button
+        type="button"
+        id="check_button"
+        onClick={() => this.handleSubmitAnswer()}
+      >
         Check
       </button>
     ) : (
-      <button id="next-button" onClick={() => this.handleNextButton}>
-        Try another word!
+      <button
+        type="button"
+        id="next_button"
+        onClick={() => this.handleNextButton()}
+      >
+        Next Word
       </button>
     );
   };
 
-  handleSubmitAnswer = e => {
-    e.preventDefault();
+  handleSubmitAnswer = () => {
     // Check answer
     DataService.postGuess({ guess: this.state.guess }).then(data => {
-      // nextWord: "Backpfeifengesicht"
-      // wordCorrectCount: 0
-      // wordIncorrectCount: 4
-      // totalScore: 0
-      // answer: "Tired of life"
-      // isCorrect: false
-
-      //   this.context.setWordCorrectCount(data.wordCorrectCount);
-      //   this.context.setWordIncorrectCount(data.wordIncorrectCount);
-      //   this.context.setTotalScore(data.totalScore);
-      //   this.context.setAnswer(data.answer);
-      //   this.context.setIsCorrect(data.isCorrect);
       this.setState({ nextWord: data });
-      //   this.setState({ nextWord: data.nextWord });
 
+      // Update score
       if (this.state.nextWord.isCorrect) {
         this.setState({
           word: {
             ...this.state.word,
-            wordCorrectCount: this.state.word.wordCorrectCount + 1
+            wordCorrectCount: this.state.word.wordCorrectCount + 1,
+            totalScore: this.state.word.totalScore + 1
           }
         });
       } else {
@@ -88,31 +75,15 @@ class LearningRoute extends Component {
         });
       }
     });
-    this.setState({
-      answered: true
-    });
   };
 
   handleNextButton = () => {
+    // Update next word
     this.setState({
       word: this.state.nextWord,
-      nextWord: {},
-      answered: false,
+      nextWord: null,
       guess: ""
     });
-
-    // DataService.getHeadWord()
-    //   .then(data => {
-    //     this.context.setCurrentWord(data);
-    //     this.context.setNextWord(data.nextWord);
-    //   })
-    //   .then(() => {
-    //     this.setState({
-    //       totalScore: this.context.currentWord.totalScore,
-    //       wordCorrectCount: this.context.currentWord.wordCorrectCount,
-    //       wordIncorrectCount: this.context.currentWord.wordIncorrectCount
-    //     });
-    //   });
   };
 
   updateGuess = e => {
@@ -137,10 +108,10 @@ class LearningRoute extends Component {
             <span className="currentWord">{nextWord}</span>
           </h2>
         </div>
-        {this.state.answered && (
+        {this.state.nextWord && (
           <div className="answerFeedback">{this.renderFeedBack()}</div>
         )}
-        <form onSubmit={e => this.handleSubmitAnswer(e)}>
+        <form>
           <Textarea
             id="learn-guess-input"
             type="text"

@@ -12,7 +12,7 @@ const DataService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
-  getHeadWord() {
+  getFirstWord() {
     return fetch(`${config.API_ENDPOINT}/language/head`, {
       headers: {
         "content-type": "application/json",
@@ -29,7 +29,7 @@ const DataService = {
         "content-type": "application/json",
         authorization: `Bearer ${TokenService.getAuthToken()}`
       },
-      body: JSON.stringify({ guess })
+      body: JSON.stringify(guess)
     }).then(res =>
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
