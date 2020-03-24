@@ -2,11 +2,14 @@
   width: 50vw;
   border: none;
   box-shadow: -2px 2px 4px rgba(119, 136, 153, 0.38);
-
 }
 
 .start_lesson > a {
   color: #ffffff;
+}
+
+.total_correct {
+  cursor: default;
 }
 
 .start_lesson:hover {

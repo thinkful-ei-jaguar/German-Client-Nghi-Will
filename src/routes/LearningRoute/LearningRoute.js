@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Textarea } from "../../components/Form/Form";
 import DataService from "../../services/data-api-service";
 import "./LearningRoute.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 class LearningRoute extends Component {
   state = {
@@ -19,16 +20,15 @@ class LearningRoute extends Component {
   renderFeedBack = () => {
     return this.state.nextWord.isCorrect ? (
       <>
-        <h3>Correct! :D</h3>
+        <FontAwesomeIcon id="check_icon" icon="check-circle" />
+        Correct
       </>
     ) : (
       <>
-        <h3>Good try, but not quite right.</h3>
-        <p>
-          The correct translation for{" "}
-          <span lang="de">{this.state.word.nextWord}</span> was{" "}
-          {this.state.nextWord.answer}!
-        </p>
+        <FontAwesomeIcon id="times_icon" icon="times-circle" />
+        The correct translation was:
+        <br />
+        {this.state.nextWord.answer}
       </>
     );
   };
@@ -57,7 +57,7 @@ class LearningRoute extends Component {
     // Ensure an entry is submitted
     if (this.state.guess.length) {
       // Check answer
-      DataService.postGuess({ guess: this.state.guess }).then(data => {
+      DataService.postGuess({ guess: this.state.guess.trim() }).then(data => {
         this.setState({ nextWord: data });
 
         // Update score
@@ -116,9 +116,6 @@ class LearningRoute extends Component {
             </span>
           </h2>
         </div>
-        {this.state.nextWord && (
-          <div className="answerFeedback">{this.renderFeedBack()}</div>
-        )}
         <form>
           <Textarea
             id="learn-guess-input"
@@ -127,11 +124,15 @@ class LearningRoute extends Component {
             onChange={this.updateGuess}
             value={this.state.guess}
             required
+            disabled={this.state.nextWord && true}
           ></Textarea>
+          {this.state.nextWord && (
+            <p className="answer_feedback">{this.renderFeedBack()}</p>
+          )}
           {this.renderButton()}
         </form>
-        <div className="Count_container">
-          <p className="total_Count">Total Score: {totalScore}</p>
+        <div className="score_container">
+          <p className="total_score">Total Score: {totalScore}</p>
           <p className="correct_word_count">
             You have answered this word correctly {wordCorrectCount} times.
           </p>

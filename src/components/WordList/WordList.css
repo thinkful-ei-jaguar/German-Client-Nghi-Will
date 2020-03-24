@@ -7,6 +7,11 @@
   margin: 10px 0;
   width: 270px;
   font-size: 12px;
+  cursor: default;
+}
+
+.table_label {
+  cursor: default;
 }
 
 #word_table thead tr {

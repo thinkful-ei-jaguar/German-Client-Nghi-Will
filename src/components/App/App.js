@@ -9,6 +9,12 @@ import DashboardRoute from "../../routes/DashboardRoute/DashboardRoute";
 import LearningRoute from "../../routes/LearningRoute/LearningRoute";
 import NotFoundRoute from "../../routes/NotFoundRoute/NotFoundRoute";
 import "./App.css";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import {
+  faCheckCircle,
+  faTimesCircle
+} from "@fortawesome/free-solid-svg-icons";
+library.add(faCheckCircle, faTimesCircle);
 
 export default class App extends Component {
   state = { hasError: false };

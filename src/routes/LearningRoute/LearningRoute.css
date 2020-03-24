@@ -45,9 +45,8 @@
 }
 
 .score_container .total_score {
-  margin: 0 0 60px 0;
+  margin: 0 0 50px 0;
   font-weight: 500;
-  font-size: 18px;
 }
 
 .score_container .correct_word_count {
@@ -62,6 +61,28 @@
   outline: none;
 }
 
+.answer_feedback {
+  width: 100%;
+  font-size: 18px;
+  font-weight: 400;
+  color: #727272;
+  margin: 5px;
+  text-align: center;
+}
+
+#check_icon,
+#times_icon {
+  margin-right: 5px;
+}
+
+#check_icon {
+  color: rgba(66, 219, 52, 0.527);
+}
+
+#times_icon {
+  color: rgba(219, 52, 52, 0.527);
+  width: 20px;
+}
 @media only screen and (min-width: 576px) {
   .learning-heading h2 {
     font-size: 38px;
