@@ -23,7 +23,7 @@ https://try-lingual.now.sh/
 
 ### API
 
-- Server Repository: https://github.com/thinkful-ei-jaguar/German-Client-Nghi-Will
+- Server Repository: https://github.com/thinkful-ei-jaguar/German-Api-Nghi-Will
 - Deployed Server: https://trylingual.herokuapp.com/api
 
 ### Screens
