@@ -27,3 +27,10 @@ https://try-lingual.now.sh/
 - Deployed Server: https://trylingual.herokuapp.com/api
 
 ### Screens
+
+<img src="images/trylingual1"/>
+<img src="images/trylingual2"/>
+<img src="images/trylingual3"/>
+<img src="images/trylingual4"/>
+<img src="images/trylingual5"/>
+<img src="images/trylingual6"/>
