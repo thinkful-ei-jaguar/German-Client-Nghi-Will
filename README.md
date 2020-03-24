@@ -28,9 +28,9 @@ https://try-lingual.now.sh/
 
 ### Screens
 
-<img src="images/trylingual1"/>
-<img src="images/trylingual2"/>
-<img src="images/trylingual3"/>
-<img src="images/trylingual4"/>
-<img src="images/trylingual5"/>
-<img src="images/trylingual6"/>
+<img src="images/trylingual1.png">
+<img src="images/trylingual2.png">
+<img src="images/trylingual3.png">
+<img src="images/trylingual4.png">
+<img src="images/trylingual5.png">
+<img src="images/trylingual6.png">
