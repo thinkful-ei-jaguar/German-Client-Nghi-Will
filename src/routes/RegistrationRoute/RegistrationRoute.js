@@ -1,13 +1,20 @@
 import React, { Component } from "react";
 import RegistrationForm from "../../components/RegistrationForm/RegistrationForm";
+import UserContext from "../../contexts/UserContext";
 import "./RegistrationRoute.css";
 
 class RegistrationRoute extends Component {
+  static contextType = UserContext;
+
   static defaultProps = {
     history: {
       push: () => {}
     }
   };
+
+  componentDidMount() {
+    this.context.updateActive("sign up");
+  }
 
   handleRegistrationSuccess = () => {
     const { history } = this.props;

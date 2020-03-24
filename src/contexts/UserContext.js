@@ -5,7 +5,9 @@ import IdleService from "../services/idle-service";
 
 const UserContext = React.createContext({
   user: {},
+  active: "sign up",
   error: null,
+  updateActive: () => {},
   setError: () => {},
   clearError: () => {},
   setUser: () => {},
@@ -20,6 +22,7 @@ export class UserProvider extends Component {
     super(props);
     const state = {
       user: {},
+      active: "sign up",
       error: null
     };
 
@@ -49,6 +52,10 @@ export class UserProvider extends Component {
     IdleService.unRegisterIdleResets();
     TokenService.clearCallbackBeforeExpiry();
   }
+
+  updateActive = active => {
+    this.setState({ active });
+  };
 
   setError = error => {
     this.setState({ error });
@@ -106,7 +113,9 @@ export class UserProvider extends Component {
   render() {
     const value = {
       user: this.state.user,
+      active: this.state.active,
       error: this.state.error,
+      updateActive: this.updateActive,
       setError: this.setError,
       clearError: this.clearError,
       setUser: this.setUser,

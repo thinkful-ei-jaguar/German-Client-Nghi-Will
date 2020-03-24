@@ -7,25 +7,9 @@ import "./Header.css";
 class Header extends Component {
   static contextType = UserContext;
 
-  state = {
-    active: ""
-  };
-
-  setActive = e => {
-    this.setState({ active: e.currentTarget.text });
-  };
-
   handleLogoutClick = () => {
     this.context.processLogout();
   };
-
-  componentDidMount() {
-    if (window.location.pathname === "/login") {
-      this.setState({ active: "Login" });
-    } else if (window.location.pathname === "/register") {
-      this.setState({ active: "Sign up" });
-    }
-  }
 
   renderLogoutLink() {
     return (
@@ -43,15 +27,13 @@ class Header extends Component {
       <nav>
         <Link
           to="/login"
-          className={this.state.active === "Login" ? "active" : null}
-          onClick={this.setActive}
+          className={this.context.active === "login" ? "active" : null}
         >
           Login
         </Link>
         <Link
           to="/register"
-          className={this.state.active === "Sign up" ? "active" : null}
-          onClick={this.setActive}
+          className={this.context.active === "sign up" ? "active" : null}
         >
           Sign up
         </Link>
