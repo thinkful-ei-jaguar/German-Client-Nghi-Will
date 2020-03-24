@@ -7,17 +7,16 @@
 .learning-heading {
   font-family: "Baloo Thambi 2", cursive;
   width: 100%;
+  color: #a0a0a0;
 }
 
 .learning-heading h2 {
-  font-size: 30px;
+  font-size: 25px;
 }
 
 .currentWord {
   display: block;
-  font-weight: 400;
-  font-size: 25px;
-  color: #2b2b2b;
+  color: rgb(75, 75, 75);
 }
 
 .learning-word-section form {
@@ -106,6 +105,6 @@
   display: none;
 }
 
-#hover-span:hover~#hover-reveal{
+#hover-span:hover ~ #hover-reveal {
   display: block;
 }

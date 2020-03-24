@@ -54,28 +54,33 @@ class LearningRoute extends Component {
   };
 
   handleSubmitAnswer = () => {
-    // Check answer
-    DataService.postGuess({ guess: this.state.guess }).then(data => {
-      this.setState({ nextWord: data });
+    // Ensure an entry is submitted
+    if (this.state.guess.length) {
+      // Check answer
+      DataService.postGuess({ guess: this.state.guess }).then(data => {
+        this.setState({ nextWord: data });
 
-      // Update score
-      if (this.state.nextWord.isCorrect) {
-        this.setState({
-          word: {
-            ...this.state.word,
-            wordCorrectCount: this.state.word.wordCorrectCount + 1,
-            totalScore: this.state.word.totalScore + 1
-          }
-        });
-      } else {
-        this.setState({
-          word: {
-            ...this.state.word,
-            wordIncorrectCount: this.state.word.wordIncorrectCount + 1
-          }
-        });
-      }
-    });
+        // Update score
+        if (this.state.nextWord.isCorrect) {
+          this.setState({
+            word: {
+              ...this.state.word,
+              wordCorrectCount: this.state.word.wordCorrectCount + 1,
+              totalScore: this.state.word.totalScore + 1
+            }
+          });
+        } else {
+          this.setState({
+            word: {
+              ...this.state.word,
+              wordIncorrectCount: this.state.word.wordIncorrectCount + 1
+            }
+          });
+        }
+      });
+    } else {
+      alert(`Please translate: ${this.state.word.nextWord}`);
+    }
   };
 
   handleNextButton = () => {
@@ -122,7 +127,7 @@ class LearningRoute extends Component {
             onChange={this.updateGuess}
             value={this.state.guess}
             required
-          />
+          ></Textarea>
           {this.renderButton()}
         </form>
         <div className="Count_container">
