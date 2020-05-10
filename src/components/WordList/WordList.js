@@ -17,7 +17,7 @@ export default function WordList(props) {
         </thead>
         <tbody>
           {props.words.map((word, i) => (
-            <WordListItem key={i} word={word} />
+            <WordListItem key={i + "-" + word} word={word} />
           ))}
         </tbody>
       </table>

@@ -2,6 +2,7 @@ import config from "../config";
 import TokenService from "./token-service";
 
 const DataService = {
+  // Get all words
   getWords() {
     return fetch(`${config.API_ENDPOINT}/language`, {
       headers: {
@@ -12,6 +13,7 @@ const DataService = {
       !res.ok ? res.json().then(e => Promise.reject(e)) : res.json()
     );
   },
+  // Get the head from linked list
   getFirstWord() {
     return fetch(`${config.API_ENDPOINT}/language/head`, {
       headers: {
@@ -22,6 +24,7 @@ const DataService = {
       return !res.ok ? res.json().then(e => Promise.reject(e)) : res.json();
     });
   },
+  // Check answers
   postGuess(guess) {
     return fetch(`${config.API_ENDPOINT}/language/guess`, {
       method: "POST",
